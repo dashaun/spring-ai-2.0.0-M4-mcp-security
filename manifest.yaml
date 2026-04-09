@@ -1,0 +1,47 @@
+---
+applications:
+- name: ws-authz
+  memory: 1G
+  buildpack: java_buildpack_offline
+  path: authz/target/authz-0.0.1-SNAPSHOT.jar
+  services:
+    - ws-authz-db
+  env:
+    SERVER_PORT: 8080
+    SPRING_SECURITY_OAUTH2_AUTHORIZATIONSERVER_CLIENT_SPRING_REGISTRATION_REDIRECT_URIS_0: https://ws-client.apps.tas-ndc.kuhn-labs.com/login/oauth2/code/spring
+    SPRING_AI_MCP_AUTHORIZATIONSERVER_DYNAMIC_CLIENT_REGISTRATION_ENABLED: "false"
+
+- name: ws-service
+  memory: 1G
+  buildpack: java_buildpack_offline
+  path: service/target/service-0.0.1-SNAPSHOT.jar
+  env:
+    SERVER_PORT: 8080
+    SPRING_APPLICATION_NAME: service
+    SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI: https://ws-authz.apps.tas-ndc.kuhn-labs.com
+    SPRING_AI_MCP_SERVER_PROTOCOL: streamable
+
+- name: ws-client
+  memory: 1G
+  instances: 1
+  buildpack: java_buildpack_offline
+  path: client/target/client-0.0.1-SNAPSHOT.jar
+  health-check-type: process
+  services:
+    - genai-service
+  env:
+    SERVER_PORT: 8080
+    SPRING_APPLICATION_NAME: client
+    SPRING_AI_MCP_CLIENT_INITIALIZED: "false"
+    SPRING_AI_MCP_CLIENT_STREAMABLE_HTTP_CONNECTIONS_SCHEDULER_URL: https://ws-service.apps.tas-ndc.kuhn-labs.com
+    SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_SPRING_ISSUER_URI: https://ws-authz.apps.tas-ndc.kuhn-labs.com
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_PROVIDER: spring
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_CLIENT_ID: spring
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_CLIENT_SECRET: spring
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_AUTHORIZATION_GRANT_TYPE: authorization_code
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_CLIENT_AUTHENTICATION_METHOD: client_secret_basic
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_REDIRECT_URI: https://ws-client.apps.tas-ndc.kuhn-labs.com/login/oauth2/code/spring
+    SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_SPRING_SCOPE: openid,profile
+    SPRING_AI_OPENAI_API_KEY: eyJhbGciOiJIUzI1NiJ9.eyJjbGllbnRfaWQiOiIyMmU0ODVmNC1mMjg4LTQ1ZGItOTdiOS05ZDRiMDk2NDliMDAiLCJrZXlfaWQiOiI0NDk5N2NmZi03N2U0LTQ4ODAtYTg5Ny0zNjZhZWIwYzhmOGQiLCJlbmRwb2ludCI6InRhbnp1LWFsbC1tb2RlbHMtMWE1NmI3YSIsInN1YiI6IjIxZjYwN2NmLWRkNTAtNGRlYy05YzU1LTQ0MGVkN2UyZDIzZiIsImlhdCI6MTc3NTY1NjU0MX0.KTLGBo36ch-YVsZotF4kHfgA4jBV7QaT-1q-7Gw1ccg
+    SPRING_AI_OPENAI_BASE_URL: https://genai-proxy.sys.tas-ndc.kuhn-labs.com/tanzu-all-models-1a56b7a/openai
+    SPRING_AI_OPENAI_CHAT_OPTIONS_MODEL: openai/gpt-oss-120b
