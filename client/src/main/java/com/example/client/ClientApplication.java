@@ -48,7 +48,7 @@ class AssistantController {
         this.ai = ai
                 .defaultToolCallbacks(tcp)
                 .defaultSystem("""
-                        helpo people schedule appointments for picking up dogs from the Pooch Palace adoption shelter.
+                        help people schedule appointments for picking up dogs from the Pooch Palace adoption shelter.
                         if somebody asks for a date, use the tools to get a valid appointment date and return the response without 
                         further questioning.
                         """)

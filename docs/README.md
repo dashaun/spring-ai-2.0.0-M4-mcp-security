@@ -206,15 +206,15 @@ Notes:
 
 ## Spring.io Blog Coverage of MCP
 
-| Date | Blog Post |
-|------|-----------|
-| Dec 2024 | [Announcing Spring AI MCP -- Java SDK](https://spring.io/blog/2024/12/11/spring-ai-mcp-announcement/) |
-| Feb 2025 | [Introducing the MCP Java SDK](https://spring.io/blog/2025/02/14/mcp-java-sdk-released-2/) |
-| Apr 2025 | [Securing MCP Servers with OAuth2](https://spring.io/blog/2025/04/02/mcp-server-oauth2/) |
+| Date     | Blog Post                                                                                                 |
+|----------|-----------------------------------------------------------------------------------------------------------|
+| Dec 2024 | [Announcing Spring AI MCP -- Java SDK](https://spring.io/blog/2024/12/11/spring-ai-mcp-announcement/)     |
+| Feb 2025 | [Introducing the MCP Java SDK](https://spring.io/blog/2025/02/14/mcp-java-sdk-released-2/)                |
+| Apr 2025 | [Securing MCP Servers with OAuth2](https://spring.io/blog/2025/04/02/mcp-server-oauth2/)                  |
 | May 2025 | [Dynamic Tool Updates in MCP](https://spring.io/blog/2025/05/04/spring-ai-dynamic-tool-updates-with-mcp/) |
-| May 2025 | [MCP Client OAuth2 in Practice](https://spring.io/blog/2025/05/19/spring-ai-mcp-client-oauth2/) |
-| Sep 2025 | [MCP Boot Starters Introduction](https://spring.io/blog/2025/09/16/spring-ai-mcp-intro-blog/) |
-| Sep 2025 | [Securing MCP Servers (mcp-security)](https://spring.io/blog/2025/09/30/spring-ai-mcp-server-security/) |
+| May 2025 | [MCP Client OAuth2 in Practice](https://spring.io/blog/2025/05/19/spring-ai-mcp-client-oauth2/)           |
+| Sep 2025 | [MCP Boot Starters Introduction](https://spring.io/blog/2025/09/16/spring-ai-mcp-intro-blog/)             |
+| Sep 2025 | [Securing MCP Servers (mcp-security)](https://spring.io/blog/2025/09/30/spring-ai-mcp-server-security/)   |
 
 Notes:
 - The Spring team has been very active publishing MCP content.
@@ -325,10 +325,8 @@ class SchedulerService {
                 .getAuthentication())
             .getName();
 
-        var das = new DogAdoptionSchedule(
-            Instant.now().plus(3, ChronoUnit.DAYS), user);
-
-        return das;
+        return new DogAdoptionSchedule(
+                Instant.now().plus(3, ChronoUnit.DAYS), user);
     }
 }
 
@@ -1025,18 +1023,18 @@ Notes:
 
 ## Resources
 
-- **Spring AI Docs**: spring.io/projects/spring-ai
-- **MCP Spec**: modelcontextprotocol.io
-- **MCP Java SDK**: github.com/modelcontextprotocol/java-sdk
-- **MCP Security**: github.com/spring-ai-community/mcp-security
-- **Spring AI Blog Posts**: spring.io/blog (search "MCP")
+- **Spring AI Docs**: [spring.io/projects/spring-ai](https://spring.io/projects/spring-ai)
+- **MCP Spec**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+- **MCP Java SDK**: [github.com/modelcontextprotocol/java-sdk](https://github.com/modelcontextprotocol/java-sdk)
+- **MCP Security**: [github.com/spring-ai-community/mcp-security](https://github.com/spring-ai-community/mcp-security)
+- **Spring AI Blog Posts**: [spring.io/blog](https://spring.io/blog) (search "MCP")
 
 ### Key Blog Posts
 
-- "Securing Spring AI MCP Servers with OAuth2" (Apr 2025)
-- "MCP Authorization in Practice" (May 2025)
-- "Securing MCP Servers with Spring AI" (Sep 2025)
-- "Connect Your AI to Everything: MCP Boot Starters" (Sep 2025)
+- [Securing Spring AI MCP Servers with OAuth2](https://spring.io/blog/2025/04/02/mcp-server-oauth2/) (Apr 2025)
+- [MCP Authorization in Practice](https://spring.io/blog/2025/05/19/spring-ai-mcp-client-oauth2/) (May 2025)
+- [Securing MCP Servers with Spring AI](https://spring.io/blog/2025/09/30/spring-ai-mcp-server-security/) (Sep 2025)
+- [Connect Your AI to Everything: MCP Boot Starters](https://spring.io/blog/2025/09/16/spring-ai-mcp-intro-blog/) (Sep 2025)
 
 Notes:
 - Share these links with attendees.

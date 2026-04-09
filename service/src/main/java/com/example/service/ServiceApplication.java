@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 @SpringBootApplication
 public class ServiceApplication {
@@ -25,8 +27,12 @@ class SchedulerService {
 
     @McpTool(description = "schedule an appointment to pick up " +
             "or adopt a dog from a Pooch Palace location")
-    DogAdoptionSchedule scheduleAdoption(@McpToolParam int dogId,
-                                         @McpToolParam String dogName) {
+    DogAdoptionSchedule scheduleAdoption(@McpToolParam(description = "Dog ID", required = false) Integer dogId,
+                                         @McpToolParam(description = "Dog Name", required = false) String dogName) {
+        int id = (dogId != null) ? dogId : ThreadLocalRandom.current().nextInt(1, 101);
+        List<String> goodNames = List.of("Fluffy", "Prancer", "Spot", "Butters");
+        String name = (dogName != null) ? dogName : goodNames.get(ThreadLocalRandom.current().nextInt(goodNames.size()));
+
         var user = Objects.requireNonNull(SecurityContextHolder
                         .getContext()
                         .getAuthentication())
@@ -34,7 +40,7 @@ class SchedulerService {
         var das = new DogAdoptionSchedule(Instant
                 .now()
                 .plus(3, ChronoUnit.DAYS), user);
-        IO.println("das: " + das + " dogId: " + dogId + " dogName: " + dogName);
+        IO.println("das: " + das + " dogId: " + id + " dogName: " + name);
         return das;
     }
 }
